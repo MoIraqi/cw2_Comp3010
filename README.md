@@ -8,7 +8,7 @@ Focus: AWS CloudTrail, S3 Access Logs, Windows Host Monitoring
 
 Table of Contents:
 
-Introduction ........................................ 1
+Introduction ..................... 1
 
 SOC Roles & Incident Handling Reflection ............. 2
 
@@ -24,6 +24,6 @@ Guided Questions – AWS Investigation Results ........ 4
   4.7 File Uploaded During Public Access ........... 7
   4.8 Windows OS Anomaly Endpoint .................. 8
 
-Conclusion and Recommendations ...................... 9
+Conclusion and Recommendations ......... 9
 
-References .......................................... 10
+References ..................... 10
