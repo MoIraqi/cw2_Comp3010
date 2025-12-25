@@ -30,8 +30,13 @@ References ..................... 10
 
 1. Introduction: 
 
-This report presents a security operations centre style investigation of AWS-related activity within the Frothly environment using the BOTSv3 dataset. The goal is to identify misconfigurations, suspicious access, and anomalous host behaviour by analysing multiple Splunk source types, primarily AWS CloudTrail, S3 access logs, and Windows host monitoring data. The investigation aligns with real world SOC practices, emphasising evidence-driven analysis, correlation across data sources, and clear reporting for security stakeholders.
+This report presents a security operations centre style investigation of AWS-related activity within the Frothly environment using the BOTSv3 dataset. 
+The goal is to identify misconfigurations, suspicious access, and anomalous host behaviour by analysing multiple Splunk source types, primarily AWS CloudTrail, S3 access logs, and Windows host monitoring data. The investigation aligns with real world SOC practices, emphasising evidence-driven analysis, correlation across data sources, and clear reporting for security stakeholders.
 
 2. SOC Roles & Incident Handling Reflection
 
 The investigation reflects a Tier 1–2 SOC workflow. The initial detection involved log triage and filtering to identify relevant AWS API activity. Log triage is the act analysing and prioritising log data to identify and respond to potential issues or threats in a system. It helps teams focus on the most critical alerts, improving response time. Analysis escalated to correlation across CloudTrail and S3 access logs to confirm misconfiguration impact. The incident handling lifecycle, followed preparation (log availability and Splunk ingestion), identification (public S3 access and anomalous actions), containment considerations (bucket access restriction), and lessons learned for prevention. This mirrors professional real-world SOC operations where analysts must contextualise and understand cloud events rapidly and accurately.
+
+3. Installation & Data Preparation
+
+Splunk Enterprise was installed on an Ubuntu virtual machine and configured according to BOTSv3 guidance. The dataset was ingested and validated by confirming event counts and availability across key source types. Relevant indexes included AWS CloudTrail logs, S3 access logs, hardware telemetry, and Windows host monitoring data. Time normalisation and field extraction were verified to ensure accurate querying and correlation.
