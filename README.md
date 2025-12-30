@@ -30,8 +30,11 @@ References ..................... 10
 
 1. Introduction: 
 
-This report presents a security operations centre style investigation of AWS-related activity within the Frothly environment using the BOTSv3 dataset. 
-The goal is to identify misconfigurations, suspicious access, and anomalous host behaviour by analysing multiple Splunk source types, primarily AWS CloudTrail, S3 access logs, and Windows host monitoring data. The investigation aligns with real world SOC practices, emphasising evidence-driven analysis, correlation across data sources, and clear reporting for security stakeholders.
+This report presents a structured Security Operations Centre (SOC) investigation into AWS-related security events within the Frothly environment using the Boss of the SOC v3 (BOTSv3) dataset. The aim of this investigation is to identify any insecure cloud configurations, alongside some anomalous access patterns, and endpoint inconsistencies through the systematic analysis of log data in Splunk. 
+
+The scope of this investigation focuses specifically on AWS CloudTrail logs, Amazon S3 access logs, hardware telemetry, and Windows host monitoring data. These data sources were selected to reflect realistic SOC monitoring capabilities across cloud infrastructure and endpoints. The report does not attempt to attribute attacker intent or perform malware reverse engineering, but instead concentrates on detection, validation, and interpretation of security-relevant events. 
+
+The report is structured to mirror professional SOC reporting practices1. Following this introduction, a reflection on SOC roles and incident handling methodologies is provided to contextualise the investigation within operational security practice. The methodology section outlines the Splunk installation and data preparation process. The main body presents guided investigative findings supported by reproducible SPL queries and evidence. The report concludes with recommendations aimed at improving cloud security posture and SOC readiness. 
 
 2. SOC Roles & Incident Handling Reflection
 
@@ -40,6 +43,8 @@ The investigation reflects a Tier 1–2 SOC workflow. The initial detection invo
 3. Installation & Data Preparation
 
 Splunk Enterprise was installed on an Ubuntu virtual machine and configured according to BOTSv3 guidance. The dataset was ingested and validated by confirming event counts and availability across key source types. Relevant indexes included AWS CloudTrail logs, S3 access logs, hardware telemetry, and Windows host monitoring data. Time normalisation and field extraction were verified to ensure accurate querying and correlation.
+
+
 
 4. Guided Questions AWS Investigation Results 
 
@@ -87,6 +92,10 @@ Q4. Event ID Enabling Public S3 Access
 
 Source Type: aws:cloudtrail 
 
+sourcetype="aws:cloudtrail" eventName=PutBucketAcl 
+
+| table _time eventName eventID userIdentity.userName requestParameters.bucketName 
+
 Result: ab45689d-69cd-41e7-8705-5350402cf7ac 
 
 This corresponds to the PutBucketAcl API call that made the S3 bucket publicly accessible, representing a critical misconfiguration. 
@@ -97,6 +106,10 @@ Q5. Bud’s Username
 
 Result: bstoll 
 
+sourcetype="aws:cloudtrail" eventName=PutBucketAcl 
+
+| table _time userIdentity.userName eventName 
+
 This username is associated with the user account that is associated with Bud, who did this action 
 
  
@@ -104,6 +117,10 @@ This username is associated with the user account that is associated with Bud, w
 Q6. Publicly Accessible S3 Bucket Name 
 
 Source Type: aws:cloudtrail 
+
+sourcetype="aws:cloudtrail" eventName=PutBucketAcl 
+
+| table requestParameters.bucketName userIdentity.userName 
 
 Result: frothlywebcode 
 
@@ -115,6 +132,16 @@ Q7. Text File Uploaded While Bucket Was Public
 
 Source Type: aws:s3:accesslogs 
 
+sourcetype="aws:s3:accesslogs" frothlywebcode 
+
+| search (PUT OR "REST.PUT.OBJECT") 
+
+| search status=200 OR http_status=200 
+
+| table _time bucket key operation status 
+
+ 
+
 Result: OPEN_BUCKET_PLEASE_FIX.txt 
 
 This file was successfully uploaded while the bucket was publicly accessible, further showing the real world impact of the misconfiguration. 
@@ -124,6 +151,10 @@ This file was successfully uploaded while the bucket was publicly accessible, fu
 Q8. Endpoint with Different Windows OS Edition 
 
 Source Type: winhostmon 
+
+sourcetype="winhostmon" 
+
+| stats values(os) by host 
 
 Result: BSTOLL-L.froth.ly 
 
