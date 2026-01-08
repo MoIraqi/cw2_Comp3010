@@ -6,29 +6,33 @@ Tooling: Splunk Enterprise (Ubuntu VM)
 
 Focus: AWS CloudTrail, S3 Access Logs, Windows Host Monitoring 
 
+https://youtu.be/pCzncozM1ho 
+
+https://github.com/MoIraqi/cw2_Comp3010.git 
+
  
 
 Table of Contents 
 
 Introduction ........................................ page 2 
 
-SOC Roles & Incident Handling Reflection .............Page 2 & 3 
+SOC Roles & Incident Handling Reflection .............Page 2  
 
-Installation & Data Preparation .....................  
+Installation & Data Preparation ..................... Page 3 
 
-Guided Questions – AWS Investigation Results ........  
-  4.1 IAM Users Accessing AWS Services ...............  
-  4.2 AWS API Activity Without MFA .................. 
-  4.3 Processor Number on Web Servers .............. 
-  4.4 Event ID Enabling Public S3 Access ............ 
-  4.5 Bud’s Username ...............................  
-  4.6 Publicly Accessible S3 Bucket Name ........... 
-  4.7 File Uploaded During Public Access ...........  
-  4.8 Windows OS Anomaly Endpoint ..................  
+Guided Questions – AWS Investigation Results ........ Page 4 
+  4.1 IAM Users Accessing AWS Services ............... page 4 
+  4.2 AWS API Activity Without MFA .................. page 5 
+  4.3 Processor Number on Web Servers .............. page 6 
+  4.4 Event ID Enabling Public S3 Access ............ page 6 
+  4.5 Bud’s Username ............................... page 7 
+  4.6 Publicly Accessible S3 Bucket Name ........... page 8 
+  4.7 File Uploaded During Public Access ........... page 9 
+  4.8 Windows OS Anomaly Endpoint .................. Page 10 
 
-Conclusion and Recommendations ......................  
+Conclusion and Recommendations ...................... Page 12 
 
-References ......................................... 
+References ......................................... page 13 
 
  
 
